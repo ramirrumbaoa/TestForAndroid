@@ -38,7 +38,9 @@ public class MainActivityFragment extends Fragment {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.load();
+                if (callback != null) {
+                    callback.load();
+                }
             }
         });
 
@@ -50,6 +52,16 @@ public class MainActivityFragment extends Fragment {
         super.onAttach(activity);
 
         callback = (Callback) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        callback = null;
+        earthImage = null;
+        dateText = null;
+        loadButton = null;
     }
 
     public void showImage(Bitmap bitmap) {
