@@ -14,7 +14,9 @@ import android.widget.TextView;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements View.OnClickListener {
+
+
     public interface Callback {
         void load();
     }
@@ -28,36 +30,31 @@ public class MainActivityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         loadButton = (Button) view.findViewById(R.id.load_button);
         earthImage = (ImageView) view.findViewById(R.id.earth_image);
         dateText = (TextView) view.findViewById(R.id.date_text);
-
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (callback != null) {
-                    callback.load();
-                }
-            }
-        });
-
+        loadButton.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (callback != null) {
+            callback.load();
+        }
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
         callback = (Callback) activity;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
         callback = null;
         earthImage = null;
         dateText = null;
